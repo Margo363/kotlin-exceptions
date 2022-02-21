@@ -10,13 +10,12 @@ class WallServiceTest {
         Likes(0, false, false, false), Reposts(0,
             false), Views(0), "" , PostSource("","","",""),
         Geo("","",Place(0,"",0,0,0,"",0,0,0,
-        0,0,"")), 0, null , false, false,
+            0,0,"")), 0, null , false, false,
         false, 0, false, false, Donut(), 0
     )
 
     @Test
     fun testAdd() {
-        //Arrange
 
         val service = WallService
 
@@ -44,30 +43,8 @@ class WallServiceTest {
     }
 
     @Test
-    fun testUpdateTrue() {
-
-        val service = WallService
-
-        service.add(Post(1, 1, 1, 1, 1, "textPost1",
-            1, 1, 1, Comments(0,false,
-                false, false, false), Copyright(0, "", "",""),
-            Likes(0, false, false, false), Reposts(0,
-                false), Views(0), "" , PostSource("","","",""),
-            Geo("","",Place(0,"",0,0,0,"",0,0,0,
-                0,0,"")), 1, null , false, false,
-            false, 1, false, false, Donut(), 1))
-
-        service.add(Post(2, 2, 2, 2, 2, "textPost2",
-            2, 2, 2, Comments(0,false,
-                false, false, false), Copyright(0, "", "",""),
-            Likes(0, false, false, false), Reposts(0,
-                false), Views(0), "" , PostSource("","","",""),
-            Geo("","",Place(0,"",0,0,0,"",0,0,0,
-                0,0,"")), 2, null , false, false,
-            false, 2, false, false, Donut(), 2))
-
-
-        val update = Post(1, 1, 1, 1, 1, "textPost1",
+    fun testUpdate() {
+        val post = Post(1, 1, 1, 1, 1, "textPost1",
             1, 1, 1, Comments(0,false,
                 false, false, false), Copyright(0, "", "",""),
             Likes(0, false, false, false), Reposts(0,
@@ -76,9 +53,8 @@ class WallServiceTest {
                 0,0,"")), 1, null , false, false,
             false, 1, false, false, Donut(), 1)
 
-        val result = service.update(update)
-
-        assertTrue(result)
+        WallService.add(post)
+        assertEquals(false, WallService.update(post))
     }
 
     @Test
@@ -122,19 +98,17 @@ class WallServiceTest {
 
     @Test
     fun testCommentAdd() {
-        //Arrange
+
         val comment: Comment = Comment(
             0, 1,0, "textPost", 0,
             arrayOfNulls(1), 0, "textPost"
         )
         val postId = 1
-        //Act
         val result = 1
-        //Assert
         assertEquals(postId, result)
     }
 
-    @Test
+    @Test(expected = PostNotFoundException::class)
     fun shouldThrow() {
 
         val expected = PostNotFoundException::class
@@ -143,9 +117,8 @@ class WallServiceTest {
             arrayOfNulls(1), 0, "textPost"
         )
 
-        val expectedResult: Comment = createComment(2, comment)
+        val result: Comment = createComment(2, comment)
 
-        assertEquals(expected, expectedResult)
+        assertEquals(expected, result)
     }
-
 }
